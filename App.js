@@ -13,6 +13,7 @@ import Main from "./components/Main";
 import Game from "./components/Game";
 import Rules from "./components/Rules";
 import Developers from "./components/Developers";
+import QuizField from "./components/QuizField";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -23,6 +24,7 @@ export default function App() {
         <Stack.Screen name="Game" component={Game} />
         <Stack.Screen name="Rules" component={Rules} />
         <Stack.Screen name="Developers" component={Developers} />
+        <Stack.Screen name="QuizField" component={QuizField} />
       </Stack.Navigator>
     </NavigationContainer>
   );

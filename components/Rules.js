@@ -1,9 +1,48 @@
-import { StyleSheet, Text, View } from "react-native";
-
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useState } from "react";
 export default function Rules({ navigation }) {
+  const [value, setValue] = useState(
+    AsyncStorage.fir ? +AsyncStorage.value : 0
+  );
+  _storeData = async () => {
+    try {
+      await AsyncStorage.setItem("fir", (value + 1).toString());
+    } catch (error) {
+      // Error saving data
+    }
+  };
+  _retrieveData = async () => {
+    try {
+      val = await AsyncStorage.getItem("fir");
+      if (value !== null) {
+        // We have data!!
+        setValue(+val);
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
   return (
     <View style={styles.container}>
-      <Text style={styles.butTextStyle}>This is page RULES</Text>
+      <Text style={styles.butTextStyle}>{value}</Text>
+      <TouchableOpacity
+        style={styles.but}
+        onPress={() => {
+          _storeData();
+          _retrieveData();
+        }}
+      >
+        <Text style={styles.butTextStyle}>set</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.but}
+        onPress={() => {
+          setValue(0);
+        }}
+      >
+        <Text style={styles.butTextStyle}>reset</Text>
+      </TouchableOpacity>
     </View>
   );
 }

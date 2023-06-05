@@ -1,9 +1,21 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text,  TouchableOpacity, View } from "react-native";
 
 export default function Game({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.butTextStyle}>This is page games</Text>
+      <TouchableOpacity
+        style={styles.but}
+        onPress={() => navigation.navigate("QuizField")}
+      >
+        <Text style={styles.butTextStyle}>Квест 1</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.but}
+        onPress={() => navigation.navigate("QuizField")}
+      >
+        <Text style={styles.butTextStyle}>Квест 2</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -21,7 +33,7 @@ const styles = StyleSheet.create({
     flex: 0.2,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#401506",
+    backgroundColor: "rgb(13, 27, 48)",
     color: "white",
 
     width: "80%",
