@@ -1,21 +1,21 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 export default function Rules({ navigation }) {
-  const [value, setValue] = useState(
-    AsyncStorage.fir ? +AsyncStorage.value : 0
-  );
-  _storeData = async () => {
+  const [value, setValue] = useState(0);
+  useEffect(()=>{getData()},[])
+  
+  seData = async () => {
     try {
-      await AsyncStorage.setItem("fir", (value + 1).toString());
+      await AsyncStorage.setItem("fir", (value).toString());
     } catch (error) {
       // Error saving data
     }
   };
-  _retrieveData = async () => {
+  getData = async () => {
     try {
       val = await AsyncStorage.getItem("fir");
-      if (value !== null) {
+      if (val !== null) {
         // We have data!!
         setValue(+val);
       }
@@ -29,20 +29,13 @@ export default function Rules({ navigation }) {
       <TouchableOpacity
         style={styles.but}
         onPress={() => {
-          _storeData();
-          _retrieveData();
+          setValue(()=>value+1)
+          seData()
         }}
       >
         <Text style={styles.butTextStyle}>set</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.but}
-        onPress={() => {
-          setValue(0);
-        }}
-      >
-        <Text style={styles.butTextStyle}>reset</Text>
-      </TouchableOpacity>
+    
     </View>
   );
 }
