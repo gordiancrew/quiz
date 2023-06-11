@@ -1,11 +1,25 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, FlatList } from "react-native";
 
 export default function Developers({ navigation }) {
+  const data = ["1", "2", "3", "4", "5"];
+  const count = 3;
   return (
     <View style={styles.container}>
-      <Text style={styles.butTextStyle}>
-        This is page about developers of this game.
-      </Text>
+      <FlatList
+        style={styles.list}
+        data={data}
+        keyExtractor={(item, index) => item?.index}
+        renderItem={({ item, index }) => (
+          <View
+            style={[
+              styles.point,
+              count > index ? { backgroundColor: "black" } :count===index?{ backgroundColor: "yellow" }: {},
+            ]}
+          >
+            <Text style={styles.pointTextStyle}>{item} </Text>
+          </View>
+        )}
+      />
     </View>
   );
 }
@@ -35,10 +49,28 @@ const styles = StyleSheet.create({
     color: "#e3e485",
     fontSize: 20,
     padding: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
   logo: {
     width: "80%",
     height: "15%",
+  },
+  point: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    margin: 20,
+    backgroundColor: "red",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "white",
+  },
+  list: {
+    width: 200,
+    backgroundColor: "green",
+  },
+  pointTextStyle: {
+    color: "white",
   },
 });
