@@ -1,10 +1,35 @@
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, } from "react-native";
+import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Developers({ navigation }) {
   const data = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
   const count = 3;
+  const [level, setLevel] = useState(0);
+  useEffect(()=>{ getData()} )
+
+  setData = async (val) => {
+    try {
+      await AsyncStorage.setItem("level", val);
+    } catch (error) {
+      // Error saving data
+    }
+  };
+  getData = async () => {
+    try {
+      val = await AsyncStorage.getItem("level");
+      if (val !== null) {
+        // We have data!!
+        setLevel(+val);
+      }
+
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
   return (
     <View style={styles.container}>
+      <Text style={styles.butTextStyle}>{level}</Text>
       <FlatList
         style={styles.list}
         numColumns={3}
@@ -18,21 +43,27 @@ export default function Developers({ navigation }) {
         data={data}
         // keyExtractor={(item, index) => item?.index}
         renderItem={({ item, index }) => (
-          <View
+          <TouchableOpacity
+            onPress={() => {
+
+              // setLevel(+item);
+              setData(item);
+              navigation.navigate("Questions");
+            }}
             style={[
               styles.point,
               count > index
                 ? { backgroundColor: "black" }
                 : count === index
-                ? {
+                  ? {
                     backgroundColor: "yellow",
                     shadowColor: "#171717",
                   }
-                : {},
+                  : {},
             ]}
           >
             <Text style={styles.pointTextStyle}>{item} </Text>
-          </View>
+          </TouchableOpacity>
         )}
       />
     </View>
@@ -81,12 +112,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     color: "white",
     shadowColor: "red",
-    
+
   },
   list: {
     // backgroundColor: "green",
     width: "100%",
-    
+
   },
   pointTextStyle: {
     color: "white",
