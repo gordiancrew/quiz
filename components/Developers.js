@@ -4,10 +4,12 @@ import {
   View,
   FlatList,
   TouchableOpacity,
+  ImageBackground,
 } from "react-native";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { disableExpoCliLogging } from "expo/build/logs/Logs";
+const image = { url: "../asses/ratusha.jpg" };
 
 export default function Developers(props) {
   const data = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
@@ -72,11 +74,17 @@ export default function Developers(props) {
                 : {},
             ]}
           >
-            {level < index+1 ? (
-              <Text style={styles.pointTextStyle}> &#x1f512; </Text>
-            ) : (
-              <Text style={styles.pointTextStyle}>{item}</Text>
-            )}
+            <ImageBackground
+              source={index + 1 < level ? require("../assets/ratusha.jpg") : ""}
+              resizeMode="cover"
+              style={styles.image}
+            >
+              {level < index + 1 ? (
+                <Text style={styles.pointTextStyle}> &#x1f512; </Text>
+              ) : (
+                <Text style={styles.pointTextStyle}>{item}</Text>
+              )}
+            </ImageBackground>
           </TouchableOpacity>
         )}
       />
@@ -128,6 +136,7 @@ const styles = StyleSheet.create({
     shadowColor: "grey",
     borderWidth: 2,
     borderColor: "white",
+    overflow: "hidden",
   },
   list: {
     // backgroundColor: "green",
@@ -135,5 +144,11 @@ const styles = StyleSheet.create({
   },
   pointTextStyle: {
     color: "white",
+  },
+  image: {
+    height: "100%",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
