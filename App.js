@@ -19,7 +19,7 @@ import { useState } from "react";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
-  const [level, setLevel] = useState('1')
+  const [lev, setLev] = useState("1iii");
   return (
     <NavigationContainer>
       <Stack.Navigator>

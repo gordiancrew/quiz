@@ -1,12 +1,21 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { disableExpoCliLogging } from "expo/build/logs/Logs";
 
-export default function Developers({ navigation }) {
+export default function Developers(props) {
   const data = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
   const count = 3;
   const [level, setLevel] = useState(0);
-  useEffect(()=>{ getData()} )
+  useEffect(() => {
+    getData();
+  });
 
   setData = async (val) => {
     try {
@@ -22,7 +31,6 @@ export default function Developers({ navigation }) {
         // We have data!!
         setLevel(+val);
       }
-
     } catch (error) {
       // Error retrieving data
     }
@@ -36,7 +44,6 @@ export default function Developers({ navigation }) {
         // snapToAlignment="sspace-around"
         // style={styles.list}
         contentContainerStyle={{
-          backgroundColor: "blue",
           justifyContent: "space-around",
           alignItems: "center",
         }}
@@ -44,25 +51,32 @@ export default function Developers({ navigation }) {
         // keyExtractor={(item, index) => item?.index}
         renderItem={({ item, index }) => (
           <TouchableOpacity
+            disabled={level === index + 1 ? false : true}
             onPress={() => {
-
               // setLevel(+item);
-              setData(item);
-              navigation.navigate("Questions");
+
+              if (level === index + 1) {
+                setData(item);
+                props.navigation.navigate("Questions");
+              }
             }}
             style={[
               styles.point,
-              count > index
-                ? { backgroundColor: "black" }
-                : count === index
-                  ? {
-                    backgroundColor: "yellow",
+              level > index + 1
+                ? { backgroundColor: "black", disabled: "disabled" }
+                : level === index + 1
+                ? {
+                    backgroundColor: "green",
                     shadowColor: "#171717",
                   }
-                  : {},
+                : {},
             ]}
           >
-            <Text style={styles.pointTextStyle}>{item} </Text>
+            {level < index+1 ? (
+              <Text style={styles.pointTextStyle}> &#x1f512; </Text>
+            ) : (
+              <Text style={styles.pointTextStyle}>{item}</Text>
+            )}
           </TouchableOpacity>
         )}
       />
@@ -106,18 +120,18 @@ const styles = StyleSheet.create({
     height: 80,
     borderRadius: 40,
     margin: "5%",
-    backgroundColor: "red",
+    backgroundColor: "grey",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     color: "white",
-    shadowColor: "red",
-
+    shadowColor: "grey",
+    borderWidth: 2,
+    borderColor: "white",
   },
   list: {
     // backgroundColor: "green",
     width: "100%",
-
   },
   pointTextStyle: {
     color: "white",
