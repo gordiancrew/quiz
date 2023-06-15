@@ -1,8 +1,9 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
+import { storage } from "./data";
 export default function Questions(props) {
-  const [level, setLevel] = useState(0);
+  const [level, setLevel] = useState(1);
   useEffect(() => {
     getData();
   }, []);
@@ -29,13 +30,15 @@ export default function Questions(props) {
   return (
     <View style={styles.container}>
       <Text style={styles.butTextStyle}>{level}</Text>
+      <Image
+        style={styles.imageLocation}
+        source={storage.data[level-1].path}
+      />
 
       <TouchableOpacity
         style={styles.but}
-        
         onPress={() => {
-          
-          level!==9?setData(level+1):setData(1);
+          level !== 9 ? setData(level + 1) : setData(1);
           props.navigation.navigate("Developers", { name: "uu" });
         }}
       >
@@ -73,5 +76,11 @@ const styles = StyleSheet.create({
   logo: {
     width: "80%",
     height: "15%",
+  },
+  imageLocation: {
+    height: 300,
+    width: 300,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

@@ -5,14 +5,18 @@ import {
   FlatList,
   TouchableOpacity,
   ImageBackground,
+  Image,
 } from "react-native";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { disableExpoCliLogging } from "expo/build/logs/Logs";
 const image = { url: "../asses/ratusha.jpg" };
+const pathLoc1 = "../assets/locations/loc1.png";
+let path = "";
+import { storage } from "./data";
+
 
 export default function Developers(props) {
-  const data = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
   const count = 3;
   const [level, setLevel] = useState(0);
   useEffect(() => {
@@ -40,6 +44,7 @@ export default function Developers(props) {
   return (
     <View style={styles.container}>
       <Text style={styles.butTextStyle}>{level}</Text>
+    
       <FlatList
         style={styles.list}
         numColumns={3}
@@ -49,40 +54,47 @@ export default function Developers(props) {
           justifyContent: "space-around",
           alignItems: "center",
         }}
-        data={data}
+        data={storage.data}
         // keyExtractor={(item, index) => item?.index}
         renderItem={({ item, index }) => (
           <TouchableOpacity
             disabled={level === index + 1 ? false : true}
             onPress={() => {
               // setLevel(+item);
-
+              path = `../assets/locations/loc${1}.png`;
               if (level === index + 1) {
-                setData(item);
+                setData(item.level);
                 props.navigation.navigate("Questions");
               }
             }}
             style={[
               styles.point,
               level > index + 1
-                ? { backgroundColor: "black", disabled: "disabled" }
+                ? {
+                    disabled: "disabled",
+                  }
                 : level === index + 1
                 ? {
                     backgroundColor: "green",
                     shadowColor: "#171717",
+                    borderWidth: 2,
+                    borderColor: "white",
+                    overflow: "hidden",
                   }
-                : {},
+                : { borderWidth: 2, borderColor: "white" },
             ]}
           >
             <ImageBackground
-              source={index + 1 < level ? require("../assets/ratusha.jpg") : ""}
+              source={
+                index + 1 < level ? item.path : require("../assets/icon.png")
+              }
               resizeMode="cover"
               style={styles.image}
             >
               {level < index + 1 ? (
                 <Text style={styles.pointTextStyle}> &#x1f512; </Text>
               ) : (
-                <Text style={styles.pointTextStyle}>{item}</Text>
+                <Text style={styles.pointTextStyle}>{item.level}</Text>
               )}
             </ImageBackground>
           </TouchableOpacity>
@@ -128,15 +140,14 @@ const styles = StyleSheet.create({
     height: 80,
     borderRadius: 40,
     margin: "5%",
-    backgroundColor: "grey",
+
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     color: "white",
     shadowColor: "grey",
-    borderWidth: 2,
-    borderColor: "white",
-    overflow: "hidden",
+
+   
   },
   list: {
     // backgroundColor: "green",
@@ -148,6 +159,12 @@ const styles = StyleSheet.create({
   image: {
     height: "100%",
     width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  imageLocation: {
+    height: 300,
+    width: 300,
     justifyContent: "center",
     alignItems: "center",
   },
