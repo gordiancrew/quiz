@@ -3,19 +3,19 @@ import { StyleSheet, Text,  TouchableOpacity, View } from "react-native";
 export default function Game({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.butTextStyle}>This is page games</Text>
+      {/* <Text style={styles.butTextStyle}>This is page games</Text> */}
       <TouchableOpacity
         style={styles.but}
         onPress={() => navigation.navigate("QuizField")}
       >
         <Text style={styles.butTextStyle}>Квест 1</Text>
       </TouchableOpacity>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.but}
         onPress={() => navigation.navigate("QuizField")}
       >
         <Text style={styles.butTextStyle}>Квест 2</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 }

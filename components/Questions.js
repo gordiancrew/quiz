@@ -32,14 +32,14 @@ export default function Questions(props) {
       <Text style={styles.butTextStyle}>{level}</Text>
       <Image
         style={styles.imageLocation}
-        source={storage.data[level-1].path}
+        source={storage.data.quest1.location[level-1].path}
       />
 
       <TouchableOpacity
         style={styles.but}
         onPress={() => {
           level !== 9 ? setData(level + 1) : setData(1);
-          props.navigation.navigate("Developers", { name: "uu" });
+          props.navigation.navigate("QuizField", { name: "uu" });
         }}
       >
         <Text style={styles.butTextStyle}>Next level</Text>
