@@ -18,7 +18,7 @@ import { storage } from "./data";
 
 export default function QuizField(props) {
   const count = 3;
-  const [level, setLevel] = useState(0);
+  const [level, setLevel] = useState(1);
   useEffect(() => {
     getData();
   });
