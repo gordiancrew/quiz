@@ -1,11 +1,21 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image,  FlatList,ImageBackground} from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  FlatList,
+  ImageBackground,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { storage } from "./data";
 
-const quests = ["quest1", "quest2", "quest3"];
+const quests = ["question 1", "question 2", "question 3"];
 export default function Questions(props) {
+  const [modal, setModal] = useState(false);
   const [level, setLevel] = useState(1);
+  const [currentQuestion, setCurrentQuestion] = useState();
   useEffect(() => {
     getData();
   }, []);
@@ -32,6 +42,25 @@ export default function Questions(props) {
   return (
     <View style={styles.container}>
       {/* <Text style={styles.butTextStyle}>{level}</Text> */}
+      <View
+        style={[
+          styles.modal,
+          modal ? { display: "flex" } : { display: "none" },
+        ]}
+      >
+        <View style={styles.modalQuestionField}>
+            <Text style={styles.butTextStyle}>{currentQuestion}</Text>
+        </View>
+        <TouchableOpacity
+          style={styles.but}
+          onPress={() => {
+            setModal(false);
+           
+          }}
+        >
+          <Text style={styles.butTextStyle}>Next</Text>
+        </TouchableOpacity>
+      </View>
       <Image
         style={styles.imageLocation}
         source={storage.data.quest1.location[level - 1].path}
@@ -46,22 +75,23 @@ export default function Questions(props) {
         data={quests}
         renderItem={({ item, index }) => (
           <TouchableOpacity
-            onPress={() => {}}
+            onPress={() => {
+              setModal(true);
+              setCurrentQuestion(item);
+            }}
             style={[
               styles.question,
-          
-               {
-                    backgroundColor: "green",
-                    shadowColor: "#171717",
-                    borderWidth: 2,
-                    borderColor: "white",
-                    overflow: "hidden",
-                  }
-               
+
+              {
+                backgroundColor: "green",
+                shadowColor: "#171717",
+                borderWidth: 2,
+                borderColor: "white",
+                overflow: "hidden",
+              },
             ]}
           >
             <Text style={styles.questTextStyle}>?</Text>
-           
           </TouchableOpacity>
         )}
       />
@@ -148,7 +178,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     color: "white",
     shadowColor: "grey",
-
-   
+  },
+  modal: {
+    display: "flex",
+    position: "absolute",
+    backgroundColor: "blue",
+    width: "100%",
+    height: "150%",
+    zIndex: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalQuestionField: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "black",
+    width: "80%",
+    height: "50%",
   },
 });
