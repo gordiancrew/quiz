@@ -1,7 +1,9 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image,  FlatList,ImageBackground} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { storage } from "./data";
+
+const quests = ["quest1", "quest2", "quest3"];
 export default function Questions(props) {
   const [level, setLevel] = useState(1);
   useEffect(() => {
@@ -29,10 +31,39 @@ export default function Questions(props) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.butTextStyle}>{level}</Text>
+      {/* <Text style={styles.butTextStyle}>{level}</Text> */}
       <Image
         style={styles.imageLocation}
-        source={storage.data.quest1.location[level-1].path}
+        source={storage.data.quest1.location[level - 1].path}
+      />
+      <FlatList
+        style={styles.list}
+        numColumns={3}
+        contentContainerStyle={{
+          justifyContent: "space-around",
+          alignItems: "center",
+        }}
+        data={quests}
+        renderItem={({ item, index }) => (
+          <TouchableOpacity
+            onPress={() => {}}
+            style={[
+              styles.question,
+          
+               {
+                    backgroundColor: "green",
+                    shadowColor: "#171717",
+                    borderWidth: 2,
+                    borderColor: "white",
+                    overflow: "hidden",
+                  }
+               
+            ]}
+          >
+            <Text style={styles.questTextStyle}>?</Text>
+           
+          </TouchableOpacity>
+        )}
       />
 
       <TouchableOpacity
@@ -58,20 +89,24 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   but: {
-    flex: 0.2,
+    // flex: 0.2,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#401506",
     color: "white",
 
     width: "80%",
-    height: 30,
+    height: 50,
 
     borderRadius: 10,
   },
   butTextStyle: {
     color: "#e3e485",
     fontSize: 20,
+  },
+  questTextStyle: {
+    color: "white",
+    fontSize: 30,
   },
   logo: {
     width: "80%",
@@ -82,5 +117,38 @@ const styles = StyleSheet.create({
     width: 300,
     justifyContent: "center",
     alignItems: "center",
+  },
+  list: {
+    // backgroundColor: "green",
+    width: "100%",
+  },
+  pointTextStyle: {
+    color: "white",
+  },
+  image: {
+    height: "100%",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  imageLocation: {
+    height: 300,
+    width: 300,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  question: {
+    width: 80,
+    height: 80,
+    borderRadius: 20,
+    margin: "5%",
+
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "white",
+    shadowColor: "grey",
+
+   
   },
 });
