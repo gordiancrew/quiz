@@ -6,6 +6,7 @@ import {
   Image,
   FlatList,
   ImageBackground,
+ 
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
@@ -49,13 +50,12 @@ export default function Questions(props) {
         ]}
       >
         <View style={styles.modalQuestionField}>
-            <Text style={styles.butTextStyle}>{currentQuestion}</Text>
+          <Text style={styles.modalTextStyle}>{currentQuestion}</Text>
         </View>
         <TouchableOpacity
           style={styles.but}
           onPress={() => {
             setModal(false);
-           
           }}
         >
           <Text style={styles.butTextStyle}>Next</Text>
@@ -72,7 +72,7 @@ export default function Questions(props) {
           justifyContent: "space-around",
           alignItems: "center",
         }}
-        data={quests}
+        data={storage.data.quest1.location[level - 1].questions}
         renderItem={({ item, index }) => (
           <TouchableOpacity
             onPress={() => {
@@ -95,7 +95,7 @@ export default function Questions(props) {
           </TouchableOpacity>
         )}
       />
-
+     
       <TouchableOpacity
         style={styles.but}
         onPress={() => {
@@ -133,6 +133,10 @@ const styles = StyleSheet.create({
   butTextStyle: {
     color: "#e3e485",
     fontSize: 20,
+  },
+  modalTextStyle: {
+    color: "white",
+    fontSize: 16,
   },
   questTextStyle: {
     color: "white",
@@ -182,7 +186,7 @@ const styles = StyleSheet.create({
   modal: {
     display: "flex",
     position: "absolute",
-    backgroundColor: "blue",
+    backgroundColor: "rgb(19,19,19)",
     width: "100%",
     height: "150%",
     zIndex: 10,
@@ -191,10 +195,11 @@ const styles = StyleSheet.create({
   },
   modalQuestionField: {
     display: "flex",
+    padding: 10,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "black",
+    // backgroundColor: "black",
     width: "80%",
-    height: "50%",
+    height: "70%",
   },
 });
