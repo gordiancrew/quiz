@@ -6,7 +6,8 @@ import {
   Image,
   FlatList,
   ImageBackground,
- 
+  TextInput,
+
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
@@ -52,13 +53,18 @@ export default function Questions(props) {
         <View style={styles.modalQuestionField}>
           <Text style={styles.modalTextStyle}>{currentQuestion}</Text>
         </View>
+        <TextInput
+          placeholderTextColor='blue'
+          placeholder="Введите ответ"
+          style={styles.input}
+        />
         <TouchableOpacity
-          style={styles.but}
+          style={styles.buttonSubmit}
           onPress={() => {
             setModal(false);
           }}
         >
-          <Text style={styles.butTextStyle}>Next</Text>
+          <Text style={styles.butTextStyle}>Ответить</Text>
         </TouchableOpacity>
       </View>
       <Image
@@ -95,7 +101,7 @@ export default function Questions(props) {
           </TouchableOpacity>
         )}
       />
-     
+
       <TouchableOpacity
         style={styles.but}
         onPress={() => {
@@ -129,6 +135,18 @@ const styles = StyleSheet.create({
     height: 50,
 
     borderRadius: 10,
+  },
+  buttonSubmit: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#401506",
+    color: "white",
+    marginTop: 10,
+    width: 300,
+    height: 50,
+
+    borderRadius: 10,
+    backgroundColor: 'green',
   },
   butTextStyle: {
     color: "#e3e485",
@@ -188,7 +206,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: "rgb(19,19,19)",
     width: "100%",
-    height: "150%",
+    // height: "150%",
+    bottom: 0,
+    top: 0,
     zIndex: 10,
     justifyContent: "center",
     alignItems: "center",
@@ -201,5 +221,16 @@ const styles = StyleSheet.create({
     // backgroundColor: "black",
     width: "80%",
     height: "70%",
+  },
+  input: {
+    backgroundColor: 'rgb(10,10,10)',
+    color: 'white',
+    textAlign: 'center',
+    width: 300,
+    height: 50,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: "white",
+
   },
 });
