@@ -7,7 +7,7 @@ import {
   FlatList,
   ImageBackground,
   TextInput,
-
+  Alert,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
@@ -18,6 +18,12 @@ export default function Questions(props) {
   const [modal, setModal] = useState(false);
   const [level, setLevel] = useState(1);
   const [currentQuestion, setCurrentQuestion] = useState();
+  // const [answers, setAnswers] = useState(["4", "5", "6"]);
+  const [answer1, setAnswer1] = useState("");
+  const [answer2, setAnswer2] = useState("");
+  const [answer3, setAnswer3] = useState("");
+  const [currentAnswer, setCurrentAnswer] = useState("7");
+  const [checkAnswers, setCheckAnswers] = useState(false);
   useEffect(() => {
     getData();
   }, []);
@@ -43,7 +49,9 @@ export default function Questions(props) {
 
   return (
     <View style={styles.container}>
-      {/* <Text style={styles.butTextStyle}>{level}</Text> */}
+      {/* <Text style={styles.butTextStyle}>
+        {answer1},{answer2},{answer3}
+      </Text> */}
       <View
         style={[
           styles.modal,
@@ -51,16 +59,34 @@ export default function Questions(props) {
         ]}
       >
         <View style={styles.modalQuestionField}>
-          <Text style={styles.modalTextStyle}>{currentQuestion}</Text>
+          <Text style={styles.modalTextStyle}>
+            {storage.data.quest1.location[level - 1].questions[currentQuestion]}
+          </Text>
         </View>
         <TextInput
-          placeholderTextColor='blue'
+          placeholderTextColor="grey"
           placeholder="Введите ответ"
           style={styles.input}
+          defaultValue={
+            currentQuestion === 0
+              ? answer1
+              : currentQuestion === 1
+              ? answer2
+              : answer3
+          }
+          onChangeText={(text) => setCurrentAnswer(text)}
         />
         <TouchableOpacity
           style={styles.buttonSubmit}
           onPress={() => {
+            {
+              currentQuestion === 0
+                ? setAnswer1(currentAnswer)
+                : currentQuestion === 1
+                ? setAnswer2(currentAnswer)
+                : setAnswer3(currentAnswer);
+            }
+            setCurrentAnswer("");
             setModal(false);
           }}
         >
@@ -83,18 +109,27 @@ export default function Questions(props) {
           <TouchableOpacity
             onPress={() => {
               setModal(true);
-              setCurrentQuestion(item);
+              setCurrentQuestion(index);
             }}
             style={[
               styles.question,
-
-              {
-                backgroundColor: "green",
-                shadowColor: "#171717",
-                borderWidth: 2,
-                borderColor: "white",
-                overflow: "hidden",
-              },
+              (index === 0 && answer1) ||
+              (index === 1 && answer2) ||
+              (index === 2 && answer3)
+                ? {
+                    backgroundColor: "yellow",
+                    shadowColor: "#171717",
+                    borderWidth: 2,
+                    borderColor: "white",
+                    overflow: "hidden",
+                  }
+                : {
+                    backgroundColor: "green",
+                    shadowColor: "#171717",
+                    borderWidth: 2,
+                    borderColor: "white",
+                    overflow: "hidden",
+                  },
             ]}
           >
             <Text style={styles.questTextStyle}>?</Text>
@@ -103,13 +138,30 @@ export default function Questions(props) {
       />
 
       <TouchableOpacity
-        style={styles.but}
+        disabled={answer1 && answer2 && answer3 ? false : true}
+        style={[
+          styles.buttonSubmit,
+          answer1 && answer2 && answer3
+            ? { backgroundColor: "green" }
+            : { backgroundColor: "grey" },
+        ]}
         onPress={() => {
-          level !== 9 ? setData(level + 1) : setData(1);
-          props.navigation.navigate("QuizField", { name: "uu" });
+          if (
+            storage.data.quest1.location[level - 1].answers[0].toUpperCase() ===
+              answer1.toUpperCase() &&
+            storage.data.quest1.location[level - 1].answers[1].toUpperCase() ===
+              answer2.toUpperCase() &&
+            storage.data.quest1.location[level - 1].answers[2].toUpperCase() ===
+              answer3.toUpperCase()
+          ) {
+            level !== 9 ? setData(level + 1) : setData(1);
+            props.navigation.navigate("QuizField", { name: "uu" });
+          } else {
+            Alert.alert("Неверные ответы!");
+          }
         }}
       >
-        <Text style={styles.butTextStyle}>Next level</Text>
+        <Text style={styles.butTextStyle}>Отправить ответы</Text>
       </TouchableOpacity>
     </View>
   );
@@ -146,7 +198,10 @@ const styles = StyleSheet.create({
     height: 50,
 
     borderRadius: 10,
-    backgroundColor: 'green',
+    backgroundColor: "green",
+    ":disabled": {
+      backgroundColor: "blue",
+    },
   },
   butTextStyle: {
     color: "#e3e485",
@@ -223,14 +278,13 @@ const styles = StyleSheet.create({
     height: "70%",
   },
   input: {
-    backgroundColor: 'rgb(10,10,10)',
-    color: 'white',
-    textAlign: 'center',
+    backgroundColor: "rgb(10,10,10)",
+    color: "white",
+    textAlign: "center",
     width: 300,
     height: 50,
     borderRadius: 10,
     borderWidth: 2,
     borderColor: "white",
-
   },
 });
