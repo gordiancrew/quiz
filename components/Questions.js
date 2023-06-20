@@ -52,6 +52,11 @@ export default function Questions(props) {
       {/* <Text style={styles.butTextStyle}>
         {answer1},{answer2},{answer3}
       </Text> */}
+      <View style={styles.frame}>
+        <Text style={styles.butTextStyle}>
+          {storage.data.quest1.location[level - 1].locationName}
+        </Text>
+      </View>
       <View
         style={[
           styles.modal,
@@ -59,6 +64,14 @@ export default function Questions(props) {
         ]}
       >
         <View style={styles.modalQuestionField}>
+          <TouchableOpacity style={styles.back} onPress={() => setModal(false)}>
+            <Text style={styles.butTextStyle}>✖</Text>
+          </TouchableOpacity>
+          <View style={styles.frameQuestion}>
+            <Text style={styles.butTextStyle}>
+              Вопрос {currentQuestion + 1}
+            </Text>
+          </View>
           <Text style={styles.modalTextStyle}>
             {storage.data.quest1.location[level - 1].questions[currentQuestion]}
           </Text>
@@ -117,14 +130,14 @@ export default function Questions(props) {
               (index === 1 && answer2) ||
               (index === 2 && answer3)
                 ? {
-                    backgroundColor: "yellow",
+                    backgroundColor: "#7c422e",
                     shadowColor: "#171717",
                     borderWidth: 2,
                     borderColor: "white",
                     overflow: "hidden",
                   }
                 : {
-                    backgroundColor: "green",
+                    backgroundColor: "rgb(199, 193, 22)",
                     shadowColor: "#171717",
                     borderWidth: 2,
                     borderColor: "white",
@@ -132,7 +145,13 @@ export default function Questions(props) {
                   },
             ]}
           >
-            <Text style={styles.questTextStyle}>?</Text>
+            <Text style={styles.questTextStyle}>
+              {(index === 0 && answer1) ||
+              (index === 1 && answer2) ||
+              (index === 2 && answer3)
+                ? "✓"
+                : "?"}
+            </Text>
           </TouchableOpacity>
         )}
       />
@@ -142,8 +161,8 @@ export default function Questions(props) {
         style={[
           styles.buttonSubmit,
           answer1 && answer2 && answer3
-            ? { backgroundColor: "green" }
-            : { backgroundColor: "grey" },
+            ? { backgroundColor: "green", borderColor: "white", borderWidth: 2 }
+            : { backgroundColor: "grey", display: "none" },
         ]}
         onPress={() => {
           if (
@@ -154,10 +173,14 @@ export default function Questions(props) {
             storage.data.quest1.location[level - 1].answers[2].toUpperCase() ===
               answer3.toUpperCase()
           ) {
+            Alert.alert("УРА! Локация пройдена! Идем дальше");
             level !== 9 ? setData(level + 1) : setData(1);
             props.navigation.navigate("QuizField", { name: "uu" });
           } else {
-            Alert.alert("Неверные ответы!");
+            setAnswer1("");
+            setAnswer2("");
+            setAnswer3("");
+            Alert.alert("Неверно! Вы где то ошиблись.");
           }
         }}
       >
@@ -194,17 +217,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#401506",
     color: "white",
     marginTop: 10,
-    width: 300,
-    height: 50,
+    width: 320,
+    height: 70,
 
     borderRadius: 10,
-    backgroundColor: "green",
-    ":disabled": {
-      backgroundColor: "blue",
-    },
+    backgroundColor: "#4f2415",
+    // borderWidth: 2,
+    borderColor: "white",
   },
   butTextStyle: {
-    color: "#e3e485",
+    color: "white",
     fontSize: 20,
   },
   modalTextStyle: {
@@ -259,7 +281,7 @@ const styles = StyleSheet.create({
   modal: {
     display: "flex",
     position: "absolute",
-    backgroundColor: "rgb(19,19,19)",
+    backgroundColor: "#7c422e",
     width: "100%",
     // height: "150%",
     bottom: 0,
@@ -278,13 +300,52 @@ const styles = StyleSheet.create({
     height: "70%",
   },
   input: {
-    backgroundColor: "rgb(10,10,10)",
-    color: "white",
+    backgroundColor: "#d9c5bf",
+    color: "black",
     textAlign: "center",
-    width: 300,
-    height: 50,
+    width: 320,
+    height: 70,
     borderRadius: 10,
     borderWidth: 2,
     borderColor: "white",
+  },
+  frame: {
+    width: 300,
+    height: 80,
+    borderWidth: 2,
+    borderColor: "white",
+    borderRadius: 10,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: -40,
+    marginBottom: 40,
+  },
+  frameQuestion: {
+    width: 300,
+    height: 80,
+    borderWidth: 2,
+    borderColor: "white",
+    borderRadius: 10,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: -90,
+    marginBottom: 20,
+  },
+  back: {
+    display: "flex",
+
+    alignItems: "center",
+    position: "absolute",
+    top: -20,
+    right: -20,
+    width: 50,
+    height: 40,
+    // borderWidth: 2,
+    backgroundColor: "#4f2415",
+
+    // borderColor: "white",
+    borderRadius: 5,
   },
 });

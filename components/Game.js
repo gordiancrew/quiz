@@ -1,4 +1,4 @@
-import { StyleSheet, Text,  TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function Game({ navigation }) {
   return (
@@ -8,7 +8,7 @@ export default function Game({ navigation }) {
         style={styles.but}
         onPress={() => navigation.navigate("QuizField")}
       >
-        <Text style={styles.butTextStyle}>Квест 1</Text>
+        <Text style={styles.butTextStyle}>Квест 1: "От ратуши"</Text>
       </TouchableOpacity>
       {/* <TouchableOpacity
         style={styles.but}
@@ -33,17 +33,21 @@ const styles = StyleSheet.create({
     flex: 0.2,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgb(13, 27, 48)",
+    backgroundColor: "rgb(199, 193, 22)",
     color: "white",
 
     width: "80%",
     height: 30,
 
     borderRadius: 10,
+    borderWidth: 2,
+    borderColor: "white",
   },
   butTextStyle: {
-    color: "#e3e485",
+    // color: "#e3e485",
+    color: "rgb(66, 5, 3)",
     fontSize: 20,
+    fontWeight:700,
   },
   logo: {
     width: "80%",

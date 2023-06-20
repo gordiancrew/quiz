@@ -15,7 +15,6 @@ const pathLoc1 = "../assets/locations/loc1.png";
 let path = "";
 import { storage } from "./data";
 
-
 export default function QuizField(props) {
   const count = 3;
   const [level, setLevel] = useState(1);
@@ -43,8 +42,9 @@ export default function QuizField(props) {
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.butTextStyle}>{level}</Text>
-    
+      <View style={styles.frame}>
+        <Text style={styles.butTextStyle}>Квест 1: "От ратуши"</Text>
+      </View>
       <FlatList
         style={styles.list}
         numColumns={3}
@@ -75,18 +75,18 @@ export default function QuizField(props) {
                   }
                 : level === index + 1
                 ? {
-                    backgroundColor: "green",
+                    backgroundColor: "rgb(199, 193, 22)",
                     shadowColor: "#171717",
                     borderWidth: 2,
                     borderColor: "white",
                     overflow: "hidden",
                   }
-                : { },
+                : {},
             ]}
           >
             <ImageBackground
               source={
-                index + 1 <= level ? item.path  :require("../assets/lock.png")
+                index + 1 <= level ? item.path : require("../assets/lock.png")
               }
               resizeMode="cover"
               style={styles.image}
@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 100,
     paddingBottom: 100,
+    display: "flex",
     flex: 1,
     backgroundColor: "#7c422e",
     alignItems: "center",
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   butTextStyle: {
-    color: "#e3e485",
+    color: "white",
     fontSize: 20,
     padding: 20,
     textAlign: "center",
@@ -147,13 +148,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     color: "white",
     shadowColor: "grey",
+  },
+  // list: {
+  //   backgroundColor: "green",
 
-   
-  },
-  list: {
-    // backgroundColor: "green",
-    width: "100%",
-  },
+  // },
   pointTextStyle: {
     color: "white",
   },
@@ -168,5 +167,16 @@ const styles = StyleSheet.create({
     width: 300,
     justifyContent: "center",
     alignItems: "center",
+  },
+  frame: {
+    width: 300,
+    height: 80,
+    borderWidth: 2,
+    borderColor: "white",
+    borderRadius: 10,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 40,
   },
 });

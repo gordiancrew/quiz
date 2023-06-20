@@ -1,4 +1,3 @@
-
 import {
   Button,
   StyleSheet,
@@ -53,17 +52,21 @@ const styles = StyleSheet.create({
     flex: 0.2,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#401506",
-    color: "white",
+    backgroundColor: "rgb(199, 193, 22)",
+    color: "rgb(74, 9, 5)",
 
     width: "80%",
     height: 30,
 
     borderRadius: 10,
+    borderWidth: 2,
+    borderColor: "white",
   },
   butTextStyle: {
-    color: "#e3e485",
+    // color: "#e3e485",
+    color: "rgb(66, 5, 3)",
     fontSize: 20,
+    fontWeight:700,
   },
   logo: {
     width: "80%",
