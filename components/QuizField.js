@@ -75,7 +75,7 @@ export default function QuizField(props) {
                   }
                 : level === index + 1
                 ? {
-                    backgroundColor: "rgb(199, 193, 22)",
+                    backgroundColor: "#ed8c72",
                     shadowColor: "#171717",
                     borderWidth: 2,
                     borderColor: "white",
@@ -111,22 +111,11 @@ const styles = StyleSheet.create({
     paddingBottom: 100,
     display: "flex",
     flex: 1,
-    backgroundColor: "#7c422e",
+    backgroundColor: "#2988bc",
     alignItems: "center",
     justifyContent: "space-around",
   },
-  but: {
-    flex: 0.2,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#401506",
-    color: "white",
 
-    width: "80%",
-    height: 30,
-
-    borderRadius: 10,
-  },
   butTextStyle: {
     color: "white",
     fontSize: 20,
@@ -140,7 +129,7 @@ const styles = StyleSheet.create({
   point: {
     width: 80,
     height: 80,
-    borderRadius: 20,
+    borderRadius: 40,
     margin: "5%",
 
     display: "flex",

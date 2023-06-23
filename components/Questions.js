@@ -13,9 +13,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { storage } from "./data";
 
-const quests = ["question 1", "question 2", "question 3"];
 export default function Questions(props) {
   const [modal, setModal] = useState(false);
+  const [trueModal, setTrueModal] = useState(false);
+  const [falseModal, setFalseModal] = useState(false);
   const [level, setLevel] = useState(1);
   const [currentQuestion, setCurrentQuestion] = useState();
   // const [answers, setAnswers] = useState(["4", "5", "6"]);
@@ -46,6 +47,12 @@ export default function Questions(props) {
       // Error saving data
     }
   };
+  trueModalAction = () => {
+    setTrueModal(true);
+  };
+  falseModalAction = () => {
+    setFalseModal(true);
+  };
 
   return (
     <View style={styles.container}>
@@ -56,6 +63,38 @@ export default function Questions(props) {
         <Text style={styles.butTextStyle}>
           {storage.data.quest1.location[level - 1].locationName}
         </Text>
+      </View>
+      <View
+        style={[
+          styles.modal,
+          falseModal ? { display: "flex" } : { display: "none" },
+        ]}
+      >
+        <ImageBackground
+          source={require("../assets/error.png")}
+          resizeMode="cover"
+          style={styles.image}
+        ></ImageBackground>
+      </View>
+      <View
+        style={[
+          styles.modal,
+          trueModal ? { display: "flex" } : { display: "none" },
+        ]}
+      >
+        <ImageBackground
+          source={require("../assets/true.png")}
+          resizeMode="cover"
+          style={styles.image}
+        >
+          {/* {level === index + 1 ? (
+                // <Text style={styles.pointTextStyle}> &#x1f512; </Text>
+                <Text style={styles.pointTextStyle}> ?</Text>
+              ) : (
+                <Text style={styles.pointTextStyle}></Text>
+              )} */}
+        </ImageBackground>
+    
       </View>
       <View
         style={[
@@ -130,14 +169,14 @@ export default function Questions(props) {
               (index === 1 && answer2) ||
               (index === 2 && answer3)
                 ? {
-                    backgroundColor: "#7c422e",
+                    backgroundColor: "#2988bc",
                     shadowColor: "#171717",
                     borderWidth: 2,
                     borderColor: "white",
                     overflow: "hidden",
                   }
                 : {
-                    backgroundColor: "rgb(199, 193, 22)",
+                    backgroundColor: "#ed8c72",
                     shadowColor: "#171717",
                     borderWidth: 2,
                     borderColor: "white",
@@ -161,7 +200,11 @@ export default function Questions(props) {
         style={[
           styles.buttonSubmit,
           answer1 && answer2 && answer3
-            ? { backgroundColor: "green", borderColor: "white", borderWidth: 2 }
+            ? {
+                backgroundColor: "#ed8c72",
+                borderColor: "white",
+                borderWidth: 2,
+              }
             : { backgroundColor: "grey", display: "none" },
         ]}
         onPress={() => {
@@ -173,14 +216,21 @@ export default function Questions(props) {
             storage.data.quest1.location[level - 1].answers[2].toUpperCase() ===
               answer3.toUpperCase()
           ) {
-            Alert.alert("УРА! Локация пройдена! Идем дальше");
-            level !== 9 ? setData(level + 1) : setData(1);
-            props.navigation.navigate("QuizField", { name: "uu" });
+            trueModalAction();
+
+            // Alert.alert("УРА! Локация пройдена! Идем дальше");
+            setTimeout(() => {
+              level !== 9 ? setData(level + 1) : setData(1);
+              props.navigation.navigate("QuizField", { name: "uu" });
+            }, 2000);
           } else {
+            falseModalAction();
             setAnswer1("");
             setAnswer2("");
             setAnswer3("");
-            Alert.alert("Неверно! Вы где то ошиблись.");
+            setTimeout(() => {
+              setFalseModal(false);
+            }, 2000);
           }
         }}
       >
@@ -195,22 +245,11 @@ const styles = StyleSheet.create({
     paddingTop: 100,
     paddingBottom: 100,
     flex: 1,
-    backgroundColor: "#7c422e",
+    backgroundColor: "#2988bc",
     alignItems: "center",
     justifyContent: "space-around",
   },
-  but: {
-    // flex: 0.2,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#401506",
-    color: "white",
 
-    width: "80%",
-    height: 50,
-
-    borderRadius: 10,
-  },
   buttonSubmit: {
     alignItems: "center",
     justifyContent: "center",
@@ -221,7 +260,7 @@ const styles = StyleSheet.create({
     height: 70,
 
     borderRadius: 10,
-    backgroundColor: "#4f2415",
+    backgroundColor: "#ed8c72",
     // borderWidth: 2,
     borderColor: "white",
   },
@@ -255,7 +294,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   image: {
-    height: "100%",
+    height: "70%",
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
@@ -281,7 +320,7 @@ const styles = StyleSheet.create({
   modal: {
     display: "flex",
     position: "absolute",
-    backgroundColor: "#7c422e",
+    backgroundColor: "#2988bc",
     width: "100%",
     // height: "150%",
     bottom: 0,
@@ -300,7 +339,7 @@ const styles = StyleSheet.create({
     height: "70%",
   },
   input: {
-    backgroundColor: "#d9c5bf",
+    backgroundColor: "#f4eade",
     color: "black",
     textAlign: "center",
     width: 320,
@@ -308,6 +347,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 2,
     borderColor: "white",
+    fontSize: 22,
   },
   frame: {
     width: 300,
@@ -342,10 +382,7 @@ const styles = StyleSheet.create({
     right: -20,
     width: 50,
     height: 40,
-    // borderWidth: 2,
-    backgroundColor: "#4f2415",
-
-    // borderColor: "white",
+    backgroundColor: "#ed8c72",
     borderRadius: 5,
   },
 });

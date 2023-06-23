@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     paddingTop: 100,
     paddingBottom: 100,
     flex: 1,
-    backgroundColor: "#7c422e",
+    backgroundColor: "#2988bc",
     alignItems: "center",
     justifyContent: "space-around",
   },
@@ -33,24 +33,20 @@ const styles = StyleSheet.create({
     flex: 0.2,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgb(199, 193, 22)",
-    color: "white",
+    backgroundColor: "#ed8c72",
+    color: "rgb(74, 9, 5)",
 
     width: "80%",
     height: 30,
 
     borderRadius: 10,
-    borderWidth: 2,
-    borderColor: "white",
+    // borderWidth: 2,
+    // borderColor: "white",
   },
   butTextStyle: {
     // color: "#e3e485",
-    color: "rgb(66, 5, 3)",
+    color: "#f4eade",
     fontSize: 20,
     fontWeight:700,
-  },
-  logo: {
-    width: "80%",
-    height: "15%",
   },
 });
