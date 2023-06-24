@@ -94,7 +94,6 @@ export default function Questions(props) {
                 <Text style={styles.pointTextStyle}></Text>
               )} */}
         </ImageBackground>
-    
       </View>
       <View
         style={[
@@ -216,13 +215,19 @@ export default function Questions(props) {
             storage.data.quest1.location[level - 1].answers[2].toUpperCase() ===
               answer3.toUpperCase()
           ) {
-            trueModalAction();
-
-            // Alert.alert("УРА! Локация пройдена! Идем дальше");
-            setTimeout(() => {
-              level !== 10 ? setData(level + 1) : setData(1);
+            if (level === 9) {
+              setData(level + 1);
               props.navigation.navigate("QuizField", { name: "uu" });
-            }, 2000);
+            } else {
+              trueModalAction();
+              // setTrueModal(true);
+
+              // Alert.alert("УРА! Локация пройдена! Идем дальше");
+              setTimeout(() => {
+                setData(level + 1);
+                props.navigation.navigate("QuizField", { name: "uu" });
+              }, 2000);
+            }
           } else {
             falseModalAction();
             setAnswer1("");

@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#ed8c72",
     color: "rgb(74, 9, 5)",
+    color: "#f4eade",
 
     width: "80%",
     height: 30,
@@ -65,6 +66,7 @@ const styles = StyleSheet.create({
   butTextStyle: {
     // color: "#e3e485",
     color: "#f4eade",
+    
     fontSize: 20,
     fontWeight:700,
   },

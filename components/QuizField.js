@@ -48,6 +48,11 @@ export default function QuizField(props) {
           level === 10 ? { display: "flex" } : { display: "none" },
         ]}
       >
+        <Image
+          source={require("../assets/end.jpg")}
+          resizeMode="cover"
+          style={styles.imageEnd}
+        ></Image>
         <TouchableOpacity
           style={styles.but}
           onPress={() => {
@@ -55,9 +60,8 @@ export default function QuizField(props) {
             setLevel(1);
           }}
         >
-          <Text style={styles.butTextStyle}>Заново</Text>
+          <Text style={styles.butTextStyle}>Перезапустить</Text>
         </TouchableOpacity>
-        <Text>Квест пройден</Text>
       </View>
       <View style={styles.frame}>
         <Text style={styles.butTextStyle}>Квест 1: "От ратуши"</Text>
@@ -196,5 +200,26 @@ const styles = StyleSheet.create({
     zIndex: 10,
     justifyContent: "center",
     alignItems: "center",
+  },
+  imageEnd: {
+    height: "50%",
+    width: "95%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  but: {
+    marginTop: 30,
+    flex: 0.2,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#ed8c72",
+    color: "rgb(74, 9, 5)",
+
+    width: "80%",
+    height: 30,
+
+    borderRadius: 10,
+    // borderWidth: 2,
+    // borderColor: "white",
   },
 });
