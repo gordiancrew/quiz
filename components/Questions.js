@@ -220,7 +220,7 @@ export default function Questions(props) {
 
             // Alert.alert("УРА! Локация пройдена! Идем дальше");
             setTimeout(() => {
-              level !== 9 ? setData(level + 1) : setData(1);
+              level !== 10 ? setData(level + 1) : setData(1);
               props.navigation.navigate("QuizField", { name: "uu" });
             }, 2000);
           } else {

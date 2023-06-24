@@ -24,7 +24,7 @@ export default function QuizField(props) {
 
   setData = async (val) => {
     try {
-      await AsyncStorage.setItem("level", val);
+      await AsyncStorage.setItem("level", val.toString());
     } catch (error) {
       // Error saving data
     }
@@ -42,6 +42,23 @@ export default function QuizField(props) {
   };
   return (
     <View style={styles.container}>
+      <View
+        style={[
+          styles.modal,
+          level === 10 ? { display: "flex" } : { display: "none" },
+        ]}
+      >
+        <TouchableOpacity
+          style={styles.but}
+          onPress={() => {
+            setData(1);
+            setLevel(1);
+          }}
+        >
+          <Text style={styles.butTextStyle}>Заново</Text>
+        </TouchableOpacity>
+        <Text>Квест пройден</Text>
+      </View>
       <View style={styles.frame}>
         <Text style={styles.butTextStyle}>Квест 1: "От ратуши"</Text>
       </View>
@@ -167,5 +184,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 40,
+  },
+  modal: {
+    display: "none",
+    position: "absolute",
+    backgroundColor: "#2988bc",
+    width: "100%",
+    // height: "150%",
+    bottom: 0,
+    top: 0,
+    zIndex: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
