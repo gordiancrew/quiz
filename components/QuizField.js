@@ -26,18 +26,15 @@ export default function QuizField(props) {
     try {
       await AsyncStorage.setItem("level", val.toString());
     } catch (error) {
-      // Error saving data
     }
   };
   getData = async () => {
     try {
       val = await AsyncStorage.getItem("level");
       if (val !== null) {
-        // We have data!!
         setLevel(+val);
       }
     } catch (error) {
-      // Error retrieving data
     }
   };
   return (
@@ -69,19 +66,15 @@ export default function QuizField(props) {
       <FlatList
         style={styles.list}
         numColumns={3}
-        // snapToAlignment="sspace-around"
-        // style={styles.list}
         contentContainerStyle={{
           justifyContent: "space-around",
           alignItems: "center",
         }}
         data={storage.data.quest1.location}
-        // keyExtractor={(item, index) => item?.index}
         renderItem={({ item, index }) => (
           <TouchableOpacity
             disabled={level === index + 1 ? false : true}
             onPress={() => {
-              // setLevel(+item);
               path = `../assets/locations/loc${1}.png`;
               if (level === index + 1) {
                 setData(item.level);
@@ -112,12 +105,6 @@ export default function QuizField(props) {
               resizeMode="cover"
               style={styles.image}
             >
-              {/* {level === index + 1 ? (
-                // <Text style={styles.pointTextStyle}> &#x1f512; </Text>
-                <Text style={styles.pointTextStyle}> ?</Text>
-              ) : (
-                <Text style={styles.pointTextStyle}></Text>
-              )} */}
             </ImageBackground>
           </TouchableOpacity>
         )}
@@ -214,12 +201,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#ed8c72",
     color: "rgb(74, 9, 5)",
-
     width: "80%",
     height: 30,
-
     borderRadius: 10,
-    // borderWidth: 2,
-    // borderColor: "white",
   },
 });

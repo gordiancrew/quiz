@@ -10,13 +10,10 @@ import {
 export default function QuizField({ navigation }) {
   return (
     <View style={styles.container}>
-      {/* <Text style={styles.butTextStyle}>This is page about us</Text> */}
-           
       <TouchableOpacity
         style={styles.butLink}
         onPress={() => Linking.openURL("https://www.instagram.com/firjdev/")}
       >
-        
         <View style={{display:"flex",flexDirection:"row", alignItems:"center"}}>
           <Image
           source={require("../assets/inst.png")}
@@ -88,15 +85,12 @@ const styles = StyleSheet.create({
   },
   butLink: {
     flex: 0.2,
-   
     alignItems: "flex-start",
     justifyContent: "center",
     backgroundColor: "#2f496e",
     color: "white",
-
     width: "80%",
     height: 30,
-
     borderRadius: 10,
   },
   image:{

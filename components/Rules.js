@@ -31,15 +31,9 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     paddingBottom: 20,
-
-    // flex: 1,
     backgroundColor: "#2988bc",
-    // alignItems: "center",
-    // justifyContent: "space-around",
-
     height: "100%",
     width: "100%",
-    // overflow: 'scroll'
   },
   but: {
     flex: 0.2,
@@ -47,10 +41,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#401506",
     color: "white",
-
     width: "80%",
     height: 30,
-
     borderRadius: 10,
   },
   butTextStyle: {

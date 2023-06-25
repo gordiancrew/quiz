@@ -19,7 +19,6 @@ export default function Questions(props) {
   const [falseModal, setFalseModal] = useState(false);
   const [level, setLevel] = useState(1);
   const [currentQuestion, setCurrentQuestion] = useState();
-  // const [answers, setAnswers] = useState(["4", "5", "6"]);
   const [answer1, setAnswer1] = useState("");
   const [answer2, setAnswer2] = useState("");
   const [answer3, setAnswer3] = useState("");
@@ -33,19 +32,14 @@ export default function Questions(props) {
     try {
       val = await AsyncStorage.getItem("level");
       if (val !== null) {
-        // We have data!!
         setLevel(+val);
       }
-    } catch (error) {
-      // Error retrieving data
-    }
+    } catch (error) {}
   };
   setData = async (val) => {
     try {
       await AsyncStorage.setItem("level", val.toString());
-    } catch (error) {
-      // Error saving data
-    }
+    } catch (error) {}
   };
   trueModalAction = () => {
     setTrueModal(true);
@@ -56,9 +50,6 @@ export default function Questions(props) {
 
   return (
     <View style={styles.container}>
-      {/* <Text style={styles.butTextStyle}>
-        {answer1},{answer2},{answer3}
-      </Text> */}
       <View style={styles.frame}>
         <Text style={styles.butTextStyle}>
           {storage.data.quest1.location[level - 1].locationName}
@@ -86,14 +77,7 @@ export default function Questions(props) {
           source={require("../assets/true.png")}
           resizeMode="cover"
           style={styles.image}
-        >
-          {/* {level === index + 1 ? (
-                // <Text style={styles.pointTextStyle}> &#x1f512; </Text>
-                <Text style={styles.pointTextStyle}> ?</Text>
-              ) : (
-                <Text style={styles.pointTextStyle}></Text>
-              )} */}
-        </ImageBackground>
+        ></ImageBackground>
       </View>
       <View
         style={[
@@ -220,9 +204,6 @@ export default function Questions(props) {
               props.navigation.navigate("QuizField", { name: "uu" });
             } else {
               trueModalAction();
-              // setTrueModal(true);
-
-              // Alert.alert("УРА! Локация пройдена! Идем дальше");
               setTimeout(() => {
                 setData(level + 1);
                 props.navigation.navigate("QuizField", { name: "uu" });
@@ -266,7 +247,6 @@ const styles = StyleSheet.create({
 
     borderRadius: 10,
     backgroundColor: "#ed8c72",
-    // borderWidth: 2,
     borderColor: "white",
   },
   butTextStyle: {
@@ -292,7 +272,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   list: {
-    // backgroundColor: "green",
     width: "100%",
   },
   pointTextStyle: {
@@ -327,7 +306,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: "#2988bc",
     width: "100%",
-    // height: "150%",
     bottom: 0,
     top: 0,
     zIndex: 10,
@@ -339,7 +317,6 @@ const styles = StyleSheet.create({
     padding: 10,
     justifyContent: "center",
     alignItems: "center",
-    // backgroundColor: "black",
     width: "80%",
     height: "70%",
   },
