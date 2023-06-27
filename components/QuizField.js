@@ -25,8 +25,7 @@ export default function QuizField(props) {
   setData = async (val) => {
     try {
       await AsyncStorage.setItem("level", val.toString());
-    } catch (error) {
-    }
+    } catch (error) {}
   };
   getData = async () => {
     try {
@@ -34,8 +33,7 @@ export default function QuizField(props) {
       if (val !== null) {
         setLevel(+val);
       }
-    } catch (error) {
-    }
+    } catch (error) {}
   };
   return (
     <View style={styles.container}>
@@ -104,8 +102,7 @@ export default function QuizField(props) {
               }
               resizeMode="cover"
               style={styles.image}
-            >
-            </ImageBackground>
+            ></ImageBackground>
           </TouchableOpacity>
         )}
       />
@@ -115,13 +112,14 @@ export default function QuizField(props) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 100,
-    paddingBottom: 100,
+    height: "100%",
+    paddingTop: 70,
+    paddingBottom: 70,
     display: "flex",
-    flex: 1,
+    // flex: 1,
     backgroundColor: "#2988bc",
     alignItems: "center",
-    justifyContent: "space-around",
+    // justifyContent: "space-around",
   },
 
   butTextStyle: {

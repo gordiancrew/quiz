@@ -228,12 +228,14 @@ export default function Questions(props) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 100,
-    paddingBottom: 100,
-    flex: 1,
+    paddingTop: 70,
+    paddingBottom: 80,
+    height:'100%',
+    // flex: 1,
     backgroundColor: "#2988bc",
     alignItems: "center",
-    justifyContent: "space-around",
+    // justifyContent: "space-around",
+    position: 'relative',
   },
 
   buttonSubmit: {
@@ -314,11 +316,12 @@ const styles = StyleSheet.create({
   },
   modalQuestionField: {
     display: "flex",
-    padding: 10,
+    padding: 5,
     justifyContent: "center",
     alignItems: "center",
     width: "80%",
-    height: "70%",
+    height: "60%",
+   
   },
   input: {
     backgroundColor: "#f4eade",
@@ -332,6 +335,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
   },
   frame: {
+    // backgroundColor:'red',
     width: 300,
     height: 80,
     borderWidth: 2,
@@ -340,8 +344,8 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: -40,
-    marginBottom: 40,
+     marginTop: -60,
+    // marginBottom: 40,
   },
   frameQuestion: {
     width: 300,
@@ -352,16 +356,16 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: -90,
-    marginBottom: 20,
+    // marginTop: -90,
+    // marginBottom: 20,
   },
   back: {
     display: "flex",
 
     alignItems: "center",
     position: "absolute",
-    top: -20,
-    right: -20,
+    top: -40,
+    right: -40,
     width: 50,
     height: 40,
     backgroundColor: "#ed8c72",
