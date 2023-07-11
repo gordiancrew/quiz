@@ -24,12 +24,12 @@ export default function QuizField(props) {
 
   setData = async (val) => {
     try {
-      await AsyncStorage.setItem("level", val.toString());
+      await AsyncStorage.setItem(`level${props.route.params.itemId}`, val.toString());
     } catch (error) {}
   };
   getData = async () => {
     try {
-      val = await AsyncStorage.getItem("level");
+      val = await AsyncStorage.getItem(`level${props.route.params.itemId}`);
       if (val !== null) {
         setLevel(+val);
       }
@@ -76,7 +76,7 @@ export default function QuizField(props) {
               path = `../assets/locations/loc${1}.png`;
               if (level === index + 1) {
                 setData(item.level);
-                props.navigation.navigate("Questions");
+                props.navigation.navigate("Questions",{itemId:props.route.params.itemId});
               }
             }}
             style={[
