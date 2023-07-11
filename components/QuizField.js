@@ -59,7 +59,7 @@ export default function QuizField(props) {
         </TouchableOpacity>
       </View>
       <View style={styles.frame}>
-        <Text style={styles.butTextStyle}>Квест 1: "От ратуши"</Text>
+        <Text style={styles.butTextStyle}>Квест: "{storage.data.quests[props.route.params.itemId].name}"</Text>
       </View>
       <FlatList
         style={styles.list}
@@ -68,7 +68,7 @@ export default function QuizField(props) {
           justifyContent: "space-around",
           alignItems: "center",
         }}
-        data={storage.data.quest1.location}
+        data={storage.data.quests[props.route.params.itemId].location}
         renderItem={({ item, index }) => (
           <TouchableOpacity
             disabled={level === index + 1 ? false : true}
