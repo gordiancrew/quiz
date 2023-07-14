@@ -55,7 +55,7 @@ export default function Questions(props) {
     <View style={styles.container}>
       <View style={styles.frame}>
         <Text style={styles.butTextStyle}>
-          {storage.data.quests[0].location[level - 1].locationName}
+          {storage.data.quests[props.route.params.itemId].location[level - 1].locationName}
         </Text>
       </View>
       <View
@@ -99,7 +99,7 @@ export default function Questions(props) {
           </View>
           <Text style={styles.modalTextStyle}>
             {
-              storage.data.quests[0].location[level - 1].questions[
+              storage.data.quests[props.route.params.itemId].location[level - 1].questions[
                 currentQuestion
               ]
             }
@@ -137,7 +137,7 @@ export default function Questions(props) {
       </View>
       <Image
         style={styles.imageLocation}
-        source={storage.data.quests[0].location[level - 1].path}
+        source={storage.data.quests[props.route.params.itemId].location[level - 1].path}
       />
       <FlatList
         style={styles.list}
@@ -146,7 +146,7 @@ export default function Questions(props) {
           justifyContent: "space-around",
           alignItems: "center",
         }}
-        data={storage.data.quests[0].location[level - 1].questions}
+        data={storage.data.quests[props.route.params.itemId].location[level - 1].questions}
         renderItem={({ item, index }) => (
           <TouchableOpacity
             onPress={() => {
@@ -199,13 +199,13 @@ export default function Questions(props) {
         ]}
         onPress={() => {
           if (
-            storage.data.quests[0].location[
+            storage.data.quests[props.route.params.itemId].location[
               level - 1
             ].answers[0].toUpperCase() === answer1.toUpperCase() &&
-            storage.data.quests[0].location[
+            storage.data.quests[props.route.params.itemId].location[
               level - 1
             ].answers[1].toUpperCase() === answer2.toUpperCase() &&
-            storage.data.quests[0].location[
+            storage.data.quests[props.route.params.itemId].location[
               level - 1
             ].answers[2].toUpperCase() === answer3.toUpperCase()
           ) {
