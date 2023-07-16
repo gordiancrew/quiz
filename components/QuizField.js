@@ -6,8 +6,9 @@ import {
   TouchableOpacity,
   ImageBackground,
   Image,
+  Animated,
 } from "react-native";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { disableExpoCliLogging } from "expo/build/logs/Logs";
 const image = { url: "../asses/ratusha.jpg" };
@@ -18,25 +19,80 @@ import { storage } from "./data";
 export default function QuizField(props) {
   const count = 3;
   const [level, setLevel] = useState(1);
+  const [isDescription, setIsDescription] = useState(true);
   useEffect(() => {
     getData();
   });
 
   setData = async (val) => {
     try {
-      await AsyncStorage.setItem("level", val.toString());
+      await AsyncStorage.setItem(
+        `level${props.route.params.itemId}`,
+        val.toString()
+      );
     } catch (error) {}
   };
   getData = async () => {
     try {
-      val = await AsyncStorage.getItem("level");
+      val = await AsyncStorage.getItem(`level${props.route.params.itemId}`);
       if (val !== null) {
         setLevel(+val);
       }
     } catch (error) {}
   };
+  // const move = this._shown.interpolate({
+  //   inputRange: [0, 1],
+  //   outputRange: [-40, 0],
+  // });
+  const translation = useRef(new Animated.Value(0)).current;
+
+  // useEffect(() => {
+  //   Animated.timing(translation, {
+  //     toValue: 200,
+  //     duration: 2000,
+  //     useNativeDriver: true,
+  //   }).start();
+  // }, [isDescription]);
+  function go() {
+    isDescription
+      ? Animated.timing(translation, {
+          toValue: 750,
+          // toValue: 400,
+          duration: 1000,
+          useNativeDriver: true,
+        }).start()
+      : Animated.timing(translation, {
+          toValue: 0,
+          duration: 1000,
+          useNativeDriver: true,
+        }).start();
+  }
+
   return (
     <View style={styles.container}>
+      <View style={[styles.noFinal,storage.data.quests[props.route.params.itemId].final?{display:'none'}:{}]}>
+        <Text style={styles.butTextStyle}>
+         Этот квест пока что в стадии разработки! Скоро поиграем!
+        </Text>
+      </View>
+      <TouchableOpacity
+        style={styles.desc}
+        onPress={() => {
+          go();
+          setIsDescription(!isDescription);
+        }}
+      >
+        <Text style={styles.descTextStyle}>
+          {isDescription ? "Описание квеста" : "Скрыть описание"}
+        </Text>
+      </TouchableOpacity>
+      <Animated.View
+        style={[styles.descField, { transform: [{ translateY: translation }] }]}
+      >
+        <Text style={{ color: "black", fontSize: 18, textAlign: "center" }}>
+        {storage.data.quests[props.route.params.itemId].description}
+        </Text>
+      </Animated.View>
       <View
         style={[
           styles.modal,
@@ -59,7 +115,9 @@ export default function QuizField(props) {
         </TouchableOpacity>
       </View>
       <View style={styles.frame}>
-        <Text style={styles.butTextStyle}>Квест 1: "От ратуши"</Text>
+        <Text style={styles.butTextStyle}>
+          Квест: "{storage.data.quests[props.route.params.itemId].name}"
+        </Text>
       </View>
       <FlatList
         style={styles.list}
@@ -68,7 +126,7 @@ export default function QuizField(props) {
           justifyContent: "space-around",
           alignItems: "center",
         }}
-        data={storage.data.quest1.location}
+        data={storage.data.quests[props.route.params.itemId].location}
         renderItem={({ item, index }) => (
           <TouchableOpacity
             disabled={level === index + 1 ? false : true}
@@ -76,7 +134,9 @@ export default function QuizField(props) {
               path = `../assets/locations/loc${1}.png`;
               if (level === index + 1) {
                 setData(item.level);
-                props.navigation.navigate("Questions");
+                props.navigation.navigate("Questions", {
+                  itemId: props.route.params.itemId,
+                });
               }
             }}
             style={[
@@ -128,6 +188,12 @@ const styles = StyleSheet.create({
     padding: 20,
     textAlign: "center",
   },
+  descTextStyle: {
+    color: "white",
+    fontSize: 18,
+
+    textAlign: "center",
+  },
   logo: {
     width: "80%",
     height: "15%",
@@ -165,7 +231,7 @@ const styles = StyleSheet.create({
   },
   frame: {
     width: 300,
-    height: 80,
+    // height: 80,
     borderWidth: 2,
     borderColor: "white",
     borderRadius: 10,
@@ -203,4 +269,48 @@ const styles = StyleSheet.create({
     height: 30,
     borderRadius: 10,
   },
+  desc: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#ed8c72",
+    position: "absolute",
+    zIndex: 90,
+    color: "rgb(74, 9, 5)",
+    width: 300,
+    height: 50,
+    borderBottomEndRadius: 10,
+    borderBottomStartRadius: 10,
+  },
+  descField: {
+    // display: "none",
+    opacity: 0.93,
+    position: "absolute",
+    backgroundColor: "white",
+    width: "100%",
+    height: "170%",
+    // height: "150%",
+    // bottom: 0,
+    top: "-170%",
+    left: 0,
+    zIndex: 10,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+ noFinal:{
+  opacity: 0.9,
+  position: "absolute",
+  backgroundColor: "black",
+  width: "100%",
+  height: "170%",
+  // height: "150%",
+  // bottom: 0,
+  top: 0,
+  left: 0,
+  zIndex: 10,
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+
+ }
 });

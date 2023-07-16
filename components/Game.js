@@ -1,14 +1,33 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View,FlatList } from "react-native";
+import { storage } from "./data";
 
 export default function Game({ navigation }) {
   return (
     <View style={styles.container}>
-      <TouchableOpacity
+        <Text style={[styles.butTextStyle,{marginBottom:20}]}>КВЕСТЫ:</Text>
+      {/* <TouchableOpacity
         style={styles.but}
         onPress={() => navigation.navigate("QuizField")}
       >
         <Text style={styles.butTextStyle}>Квест 1: "От ратуши"</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+      <FlatList
+        style={styles.list}
+        // numColumns={3}
+        contentContainerStyle={{
+          justifyContent: "space-around",
+          alignItems: "center",
+        }}
+        data={storage.data.quests}
+        renderItem={({ item, index }) => (
+          <TouchableOpacity
+          style={styles.but}
+          onPress={() => navigation.navigate("QuizField",{itemId:index})}
+        >
+          <Text style={styles.butTextStyle}>{item.name}</Text>
+        </TouchableOpacity>
+        )}
+      />
     </View>
   );
 }
@@ -23,18 +42,22 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   but: {
-    flex: 0.2,
+    // flex: 0.2,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#ed8c72",
     color: "rgb(74, 9, 5)",
-    width: "80%",
-    height: 30,
+    width: 300,
+    height: 50,
     borderRadius: 10,
+    marginTop:20,
   },
   butTextStyle: {
     color: "#f4eade",
     fontSize: 20,
     fontWeight:700,
+  },
+  list: {
+    width: 700,
   },
 });

@@ -30,7 +30,7 @@ export default function Questions(props) {
 
   getData = async () => {
     try {
-      val = await AsyncStorage.getItem("level");
+      val = await AsyncStorage.getItem(`level${props.route.params.itemId}`);
       if (val !== null) {
         setLevel(+val);
       }
@@ -38,7 +38,10 @@ export default function Questions(props) {
   };
   setData = async (val) => {
     try {
-      await AsyncStorage.setItem("level", val.toString());
+      await AsyncStorage.setItem(
+        `level${props.route.params.itemId}`,
+        val.toString()
+      );
     } catch (error) {}
   };
   trueModalAction = () => {
@@ -52,7 +55,7 @@ export default function Questions(props) {
     <View style={styles.container}>
       <View style={styles.frame}>
         <Text style={styles.butTextStyle}>
-          {storage.data.quest1.location[level - 1].locationName}
+          {storage.data.quests[props.route.params.itemId].location[level - 1].locationName}
         </Text>
       </View>
       <View
@@ -95,7 +98,11 @@ export default function Questions(props) {
             </Text>
           </View>
           <Text style={styles.modalTextStyle}>
-            {storage.data.quest1.location[level - 1].questions[currentQuestion]}
+            {
+              storage.data.quests[props.route.params.itemId].location[level - 1].questions[
+                currentQuestion
+              ]
+            }
           </Text>
         </View>
         <TextInput
@@ -130,7 +137,7 @@ export default function Questions(props) {
       </View>
       <Image
         style={styles.imageLocation}
-        source={storage.data.quest1.location[level - 1].path}
+        source={storage.data.quests[props.route.params.itemId].location[level - 1].path}
       />
       <FlatList
         style={styles.list}
@@ -139,7 +146,7 @@ export default function Questions(props) {
           justifyContent: "space-around",
           alignItems: "center",
         }}
-        data={storage.data.quest1.location[level - 1].questions}
+        data={storage.data.quests[props.route.params.itemId].location[level - 1].questions}
         renderItem={({ item, index }) => (
           <TouchableOpacity
             onPress={() => {
@@ -192,21 +199,30 @@ export default function Questions(props) {
         ]}
         onPress={() => {
           if (
-            storage.data.quest1.location[level - 1].answers[0].toUpperCase() ===
-              answer1.toUpperCase() &&
-            storage.data.quest1.location[level - 1].answers[1].toUpperCase() ===
-              answer2.toUpperCase() &&
-            storage.data.quest1.location[level - 1].answers[2].toUpperCase() ===
-              answer3.toUpperCase()
+            storage.data.quests[props.route.params.itemId].location[
+              level - 1
+            ].answers[0].toUpperCase() === answer1.toUpperCase() &&
+            storage.data.quests[props.route.params.itemId].location[
+              level - 1
+            ].answers[1].toUpperCase() === answer2.toUpperCase() &&
+            storage.data.quests[props.route.params.itemId].location[
+              level - 1
+            ].answers[2].toUpperCase() === answer3.toUpperCase()
           ) {
             if (level === 9) {
               setData(level + 1);
-              props.navigation.navigate("QuizField", { name: "uu" });
+              props.navigation.navigate("QuizField", {
+                name: "uu",
+                itemId: props.route.params.itemId,
+              });
             } else {
               trueModalAction();
               setTimeout(() => {
                 setData(level + 1);
-                props.navigation.navigate("QuizField", { name: "uu" });
+                props.navigation.navigate("QuizField", {
+                  name: "uu",
+                  itemId: props.route.params.itemId,
+                });
               }, 2000);
             }
           } else {
@@ -230,12 +246,12 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 70,
     paddingBottom: 80,
-    height:'100%',
+    height: "100%",
     // flex: 1,
     backgroundColor: "#2988bc",
     alignItems: "center",
     // justifyContent: "space-around",
-    position: 'relative',
+    position: "relative",
   },
 
   buttonSubmit: {
@@ -321,7 +337,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "80%",
     height: "60%",
-   
   },
   input: {
     backgroundColor: "#f4eade",
@@ -344,7 +359,7 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-     marginTop: -60,
+    marginTop: -60,
     // marginBottom: 40,
   },
   frameQuestion: {
