@@ -12,7 +12,7 @@ export default function QuizField({ navigation }) {
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.butLink}
-        onPress={() => Linking.openURL("https://www.instagram.com/firjdev/")}
+        onPress={() => Linking.openURL("https://www.instagram.com/minsk.city.quest/")}
       >
         <View style={{display:"flex",flexDirection:"row", alignItems:"center"}}>
           <Image
