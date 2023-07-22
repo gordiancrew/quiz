@@ -21,7 +21,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.gordiancrew.quiz",
-      "versionCode": 2
+      "versionCode": 4
     },
     "web": {
       "favicon": "./assets/favicon.png"

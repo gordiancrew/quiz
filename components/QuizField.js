@@ -7,6 +7,7 @@ import {
   ImageBackground,
   Image,
   Animated,
+  useWindowDimensions,
 } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -17,6 +18,7 @@ let path = "";
 import { storage } from "./data";
 
 export default function QuizField(props) {
+  const { height } = useWindowDimensions();
   const count = 3;
   const [level, setLevel] = useState(1);
   const [isDescription, setIsDescription] = useState(true);
@@ -40,24 +42,41 @@ export default function QuizField(props) {
       }
     } catch (error) {}
   };
-  // const move = this._shown.interpolate({
-  //   inputRange: [0, 1],
-  //   outputRange: [-40, 0],
-  // });
-  const translation = useRef(new Animated.Value(0)).current;
 
-  // useEffect(() => {
-  //   Animated.timing(translation, {
-  //     toValue: 200,
-  //     duration: 2000,
-  //     useNativeDriver: true,
-  //   }).start();
-  // }, [isDescription]);
+  const translation = useRef(new Animated.Value(0)).current;
+  const pulse = useRef(new Animated.Value(0)).current;
+  // const hh = pulse.interpolate({
+  //   inputRange: [0, 1],
+  //   outputRange: ["0%", "100%"],
+  // });
+  // const testStyle = { transform: [{ translateX: pulse }, ]};
+  useEffect(() => {
+    setInterval(() => {
+      {
+        Animated.timing(pulse, {
+          toValue: 0.3,
+
+          duration: 800,
+          useNativeDriver: true,
+        }).start();
+
+        setTimeout(() => {
+          Animated.timing(pulse, {
+            toValue: 0.0,
+
+            duration: 800,
+            useNativeDriver: true,
+          }).start();
+        }, 800);
+      }
+    }, 1600);
+  }, []);
+
   function go() {
     isDescription
       ? Animated.timing(translation, {
-          toValue: 750,
-          // toValue: 400,
+          toValue: height,
+
           duration: 1000,
           useNativeDriver: true,
         }).start()
@@ -70,9 +89,16 @@ export default function QuizField(props) {
 
   return (
     <View style={styles.container}>
-      <View style={[styles.noFinal,storage.data.quests[props.route.params.itemId].final?{display:'none'}:{}]}>
+      <View
+        style={[
+          styles.noFinal,
+          storage.data.quests[props.route.params.itemId].final
+            ? { display: "none" }
+            : {},
+        ]}
+      >
         <Text style={styles.butTextStyle}>
-         Этот квест пока что в стадии разработки! Скоро поиграем!
+          Этот квест пока что в стадии разработки! Скоро поиграем!
         </Text>
       </View>
       <TouchableOpacity
@@ -86,11 +112,22 @@ export default function QuizField(props) {
           {isDescription ? "Описание квеста" : "Скрыть описание"}
         </Text>
       </TouchableOpacity>
+      {/* <Animated.View style={[styles.test, testStyle]}></Animated.View> */}
+     
       <Animated.View
-        style={[styles.descField, { transform: [{ translateY: translation }] }]}
+        style={[
+          styles.descField,
+          {
+            transform: [
+              {
+                translateY: translation,
+              },
+            ],
+          },
+        ]}
       >
         <Text style={{ color: "black", fontSize: 18, textAlign: "center" }}>
-        {storage.data.quests[props.route.params.itemId].description}
+          {storage.data.quests[props.route.params.itemId].description}
         </Text>
       </Animated.View>
       <View
@@ -128,42 +165,52 @@ export default function QuizField(props) {
         }}
         data={storage.data.quests[props.route.params.itemId].location}
         renderItem={({ item, index }) => (
-          <TouchableOpacity
-            disabled={level === index + 1 ? false : true}
-            onPress={() => {
-              path = `../assets/locations/loc${1}.png`;
-              if (level === index + 1) {
-                setData(item.level);
-                props.navigation.navigate("Questions", {
-                  itemId: props.route.params.itemId,
-                });
-              }
-            }}
-            style={[
-              styles.point,
-              level > index + 1
-                ? {
-                    disabled: "disabled",
-                  }
-                : level === index + 1
-                ? {
-                    backgroundColor: "#ed8c72",
-                    shadowColor: "#171717",
-                    borderWidth: 2,
-                    borderColor: "white",
-                    overflow: "hidden",
-                  }
-                : {},
-            ]}
-          >
-            <ImageBackground
-              source={
-                index + 1 <= level ? item.path : require("../assets/lock.png")
-              }
-              resizeMode="cover"
-              style={styles.image}
-            ></ImageBackground>
-          </TouchableOpacity>
+          <View style={{ position: "relative", margin: "5%",display:"flex",justifyContent:'center',alignItems:'center' }}>
+            <Animated.View
+              style={[index!==level-1?{display:'none'}:{},
+                styles.test,
+                {
+                  opacity: pulse,
+                },
+              ]}
+            ></Animated.View>
+            <TouchableOpacity
+              disabled={level === index + 1 ? false : true}
+              onPress={() => {
+                path = `../assets/locations/loc${1}.png`;
+                if (level === index + 1) {
+                  setData(item.level);
+                  props.navigation.navigate("Questions", {
+                    itemId: props.route.params.itemId,
+                  });
+                }
+              }}
+              style={[
+                styles.point,
+                level > index + 1
+                  ? {
+                      disabled: "disabled",
+                    }
+                  : level === index + 1
+                  ? {
+                      backgroundColor: "#ed8c72",
+                      shadowColor: "#171717",
+                      borderWidth: 2,
+                      borderColor: "white",
+                      overflow: "hidden",
+                    }
+                  : {},
+              ]}
+            >
+              <ImageBackground
+                source={
+                  index + 1 <= level ? item.path : require("../assets/lock.png")
+                }
+                resizeMode="cover"
+                style={styles.image}
+              ></ImageBackground>
+            </TouchableOpacity>
+          </View>
         )}
       />
     </View>
@@ -202,18 +249,16 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    margin: "5%",
+    // margin: "5%",
 
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     color: "white",
     shadowColor: "grey",
+    zIndex:11,
   },
-  // list: {
-  //   backgroundColor: "green",
 
-  // },
   pointTextStyle: {
     color: "white",
   },
@@ -297,20 +342,35 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
- noFinal:{
-  opacity: 0.9,
-  position: "absolute",
-  backgroundColor: "black",
-  width: "100%",
-  height: "170%",
-  // height: "150%",
-  // bottom: 0,
-  top: 0,
-  left: 0,
-  zIndex: 10,
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
+  noFinal: {
+    opacity: 0.9,
+    position: "absolute",
+    backgroundColor: "black",
+    width: "100%",
+    height: "170%",
+    // height: "150%",
+    // bottom: 0,
+    top: 0,
+    left: 0,
+    zIndex: 10,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  // test: {
+  //   position: "absolute",
+  //   backgroundColor: "red",
+  //   width: 100,
+  // },
+  test: {
+    position: "absolute",
+    // // opacity:1,
+    // top: 300,
 
- }
+    backgroundColor: "white",
+    width: 100,
+    height: 100,
+    borderRadius:50,
+    zIndex: 9,
+  },
 });
