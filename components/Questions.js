@@ -8,6 +8,7 @@ import {
   ImageBackground,
   TextInput,
   Alert,
+  Keyboard
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
@@ -128,6 +129,7 @@ export default function Questions(props) {
                 ? setAnswer2(currentAnswer)
                 : setAnswer3(currentAnswer);
             }
+            Keyboard.dismiss();
             setCurrentAnswer("");
             setModal(false);
           }}
