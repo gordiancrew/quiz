@@ -1,57 +1,87 @@
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import React, { useState } from "react";
 
-export default function Rules({ navigation }) {
+import { StyleSheet, View } from "react-native";
+
+import Mapbox from "@rnmapbox/maps";
+
+Mapbox.setAccessToken(
+  "pk.eyJ1IjoiYW5kcmVpcGF2bG92IiwiYSI6ImNsa2R1YnNuYTBkbXkzZm1tZ25sNjZlcGwifQ.SHu_jGOP_fRgECuMqWIHlQ"
+);
+
+const Rules = () => {
+  const [calloutVisible, setCalloutVisible] = useState(false);
+
+  const [coordinates] = useState([-5, 55]);
+
+  const onMarkerPress = () => {
+    setCalloutVisible(true);
+  };
+
+  const loadAnnotationUK = () => {
+    return (
+      <Mapbox.PointAnnotation
+        key="annotationUK"
+        id="annotationUK"
+        coordinate={[0.1, 51.5]}
+        onSelected={onMarkerPress}
+      >
+        <View
+          style={{
+            height: 20,
+
+            width: 20,
+
+            backgroundColor: "green",
+
+            borderColor: "black",
+
+            borderWidth: 2,
+
+            borderRadius: 50,
+          }}
+        ></View>
+
+        <Mapbox.Callout
+          title="Welcome to London!"
+          contentStyle={{ borderRadius: 5 }}
+        ></Mapbox.Callout>
+      </Mapbox.PointAnnotation>
+    );
+  };
+
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.butTextStyle}>
-        Игра содержит в себе отдельные( на данный момент один) квесты городского
-        формата. В каждом квесте 9 локаций, каждая локация содержит три вопроса
-        по ней. В начале игры доступна локация номер 1, остальные находятся под
-        замком. Доступ ко второй локации вы получаете при успешных ответах на 3
-        вопроса по первой локации, к третьей при ответе на вопросы по второй и т
-        д. В каждой локации вы вводите свои ответ в боксы вопросов, когда ответ
-        дан бокс меняет цвет с жёлтого на цвет фона и знак вопроса превращается
-        в галочку. После ввода всех трёх версий появляется кнопка
-        "отправить ответы" . Нажав на нее вы проверяете правильность ваших
-        версий. Если один или несколько ответов не верны- вы получите
-        соответствующее сообщение и останетесь на той же локации пока не дадите
-        3 верных ответа. Какой ответ был неверным в игре не говорится, чтобы не
-        было возможности подбирать варианты по отдельности. Каждый квест
-        рассчитан на 3-4 часа по времени прохождения, и 7-8 км пешего хода по
-        городу. Мы рады любым предложениям и отзывам по игре и с удовольствием
-        ждём вашей обратной связи. Хорошего времяпровождения в нашей игре!
-      </Text>
-    </ScrollView>
+    <View style={styles.page}>
+      <View style={styles.container}>
+        <Mapbox.MapView style={styles.map}>
+          <Mapbox.Camera zoomLevel={4} centerCoordinate={coordinates} />
+
+          <Mapbox.PointAnnotation id="uk" coordinate={coordinates} />
+
+          <View>{loadAnnotationUK()}</View>
+        </Mapbox.MapView>
+      </View>
+    </View>
   );
-}
+};
+
+export default Rules;
 
 const styles = StyleSheet.create({
+  page: {
+    flex: 1,
+
+    justifyContent: "center",
+
+    alignItems: "center",
+  },
+
   container: {
-    paddingTop: 20,
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingBottom: 20,
-    backgroundColor: "#2988bc",
     height: "100%",
+
     width: "100%",
   },
-  but: {
-    flex: 0.2,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#401506",
-    color: "white",
-    width: "80%",
-    height: 30,
-    borderRadius: 10,
-  },
-  butTextStyle: {
-    color: "white",
-    fontSize: 16,
-    textAlign: "center",
-  },
-  logo: {
-    width: "80%",
-    height: "15%",
+
+  map: {
+    flex: 1,
   },
 });

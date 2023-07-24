@@ -30,6 +30,15 @@
       "eas": {
         "projectId": "6259357e-0d90-4e35-b8c2-e765e1188d18"
       }
-    }
+    },
+    "plugins": [
+      [
+        "@rnmapbox/maps",
+        {
+          "RNMapboxMapsImpl": "mapbox",
+          "RNMapboxMapsDownloadToken": "sk.eyJ1IjoiYW5kcmVpcGF2bG92IiwiYSI6ImNsa2R5c2I4NzBreG0zZHFqcG51MWN5ejEifQ.qHl_77PRZtgNpqjDkoBEcg"
+        }
+      ]
+    ]
   }
 }
