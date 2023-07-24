@@ -2,56 +2,57 @@ import React, { useState } from "react";
 
 import { StyleSheet, View } from "react-native";
 
-import Mapbox from "@rnmapbox/maps";
+// import Mapbox from "@rnmapbox/maps";
+import MapboxGL from "@react-native-mapbox-gl/maps";
 
-Mapbox.setAccessToken(
+MapboxGL.setAccessToken(
   "pk.eyJ1IjoiYW5kcmVpcGF2bG92IiwiYSI6ImNsa2R1YnNuYTBkbXkzZm1tZ25sNjZlcGwifQ.SHu_jGOP_fRgECuMqWIHlQ"
 );
 
 const Rules = () => {
-  const [calloutVisible, setCalloutVisible] = useState(false);
+  // const [calloutVisible, setCalloutVisible] = useState(false);
 
-  const [coordinates] = useState([-5, 55]);
+  // const [coordinates] = useState([-5, 55]);
 
-  const onMarkerPress = () => {
-    setCalloutVisible(true);
-  };
+  // const onMarkerPress = () => {
+  //   setCalloutVisible(true);
+  // };
 
-  const loadAnnotationUK = () => {
-    return (
-      <Mapbox.PointAnnotation
-        key="annotationUK"
-        id="annotationUK"
-        coordinate={[0.1, 51.5]}
-        onSelected={onMarkerPress}
-      >
-        <View
-          style={{
-            height: 20,
+  // const loadAnnotationUK = () => {
+  //   return (
+  //     <Mapbox.PointAnnotation
+  //       key="annotationUK"
+  //       id="annotationUK"
+  //       coordinate={[0.1, 51.5]}
+  //       onSelected={onMarkerPress}
+  //     >
+  //       <View
+  //         style={{
+  //           height: 20,
 
-            width: 20,
+  //           width: 20,
 
-            backgroundColor: "green",
+  //           backgroundColor: "green",
 
-            borderColor: "black",
+  //           borderColor: "black",
 
-            borderWidth: 2,
+  //           borderWidth: 2,
 
-            borderRadius: 50,
-          }}
-        ></View>
+  //           borderRadius: 50,
+  //         }}
+  //       ></View>
 
-        <Mapbox.Callout
-          title="Welcome to London!"
-          contentStyle={{ borderRadius: 5 }}
-        ></Mapbox.Callout>
-      </Mapbox.PointAnnotation>
-    );
-  };
+  //       <Mapbox.Callout
+  //         title="Welcome to London!"
+  //         contentStyle={{ borderRadius: 5 }}
+  //       ></Mapbox.Callout>
+  //     </Mapbox.PointAnnotation>
+  //   );
+  // };
 
   return (
     <View style={styles.page}>
-      <View style={styles.container}>
+      {/* <View style={styles.container}>
         <Mapbox.MapView style={styles.map}>
           <Mapbox.Camera zoomLevel={4} centerCoordinate={coordinates} />
 
@@ -59,6 +60,9 @@ const Rules = () => {
 
           <View>{loadAnnotationUK()}</View>
         </Mapbox.MapView>
+      </View> */}
+      <View style={styles.container}>
+        <MapboxGL.MapView style={styles.map} />
       </View>
     </View>
   );
