@@ -10,6 +10,12 @@ MapboxGL.setAccessToken(
 );
 
 const Rules = () => {
+  let getDevServer = () => {
+    /* no-op */
+  };
+  if (Platform.OS !== "web") {
+    getDevServer = require("react-native/Libraries/Core/Devtools/getDevServer");
+  }
   // const [calloutVisible, setCalloutVisible] = useState(false);
 
   // const [coordinates] = useState([-5, 55]);
